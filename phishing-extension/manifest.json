@@ -1,20 +1,27 @@
 {
   "manifest_version": 3,
   "name": "Phishing URL Detector",
+  "description": "Detect phishing websites and show a notification popup when detected.",
   "version": "1.0",
-  "description": "Detect if a URL is phishing or legitimate.",
   "permissions": [
+    "tabs",
     "activeTab",
-    "scripting"
+    "notifications"
   ],
-  "host_permissions": [
-    "http://127.0.0.1:5000/*"
-  ],
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon.png"
-  },
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   }
 }

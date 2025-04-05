@@ -3,36 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <title>Phishing URL Detector</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
-      width: 250px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      width: 300px;
+      background-color: #ffffff;
+      color: #333;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    input {
-      width: 100%;
-      padding: 5px;
-      margin-bottom: 10px;
+
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
     }
-    button {
-      width: 100%;
-      padding: 8px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+
     #result {
-      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
       font-weight: bold;
+      font-size: 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .safe {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .phishing {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .material-icons {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+
+    .note {
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+      color: #555;
+    }
+
+    .loader {
+      text-align: center;
+      color: #999;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <h3>Phishing URL Detector</h3>
-  <input type="text" id="urlInput" placeholder="Enter URL">
-  <button id="checkButton">Check</button>
-  <p id="result"></p>
+  <h3><span class="material-icons">security</span> Phishing URL Detector</h3>
+  <div id="result" class="loader">Checking current URL...</div>
+  <p id="note" class="note"></p>
 
   <script src="popup.js"></script>
 </body>

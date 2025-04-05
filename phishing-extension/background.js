@@ -1,29 +1,36 @@
+const alertedTabs = new Set();
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status === "complete" && tab.url) {
-      const currentUrl = tab.url;
-  
-      // Replace with your actual backend URL
-      fetch("https://your-backend-url.com/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ url: currentUrl })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.result === "phishing") {
-            chrome.scripting.executeScript({
-              target: { tabId: tabId },
-              func: () => {
-                alert("⚠️ Warning: This site may be a phishing site!");
-              }
-            });
-          }
-        })
-        .catch(error => {
-          console.error("Error fetching from backend:", error);
+  if (changeInfo.status === "complete" && /^https?:/.test(tab.url)) {
+    // Avoid alerting the same tab again
+    if (alertedTabs.has(tabId)) return;
+
+    fetch("http://127.0.0.1:5000/predicturl", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ url: tab.url })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.prediction && data.prediction.toLowerCase() === "phishing") {
+        // Mark this tab as alerted
+        alertedTabs.add(tabId);
+
+        chrome.scripting.executeScript({
+          target: { tabId: tabId },
+          files: ["alert-injector.js"]
         });
-    }
-  });
-  
+      }
+    })
+    .catch(err => {
+      console.error("Error checking phishing:", err);
+    });
+  }
+});
+
+// Clear flagged tabs if they are closed
+chrome.tabs.onRemoved.addListener((tabId) => {
+  alertedTabs.delete(tabId);
+});
