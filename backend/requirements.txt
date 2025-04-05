@@ -1,0 +1,8 @@
+Flask
+joblib
+scikit-learn
+pandas
+ tldextract
+  whois 
+  requests
+  scipy
